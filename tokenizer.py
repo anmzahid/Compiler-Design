@@ -1,11 +1,7 @@
-from token_types import OPERATORS, SPECIAL_SYMBOLS, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT
 import re
+from token_types import OPERATORS, SPECIAL_SYMBOLS, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT
 
-# Combine all multi-char operators/symbols to check first
-COMPOSITE_TOKENS = sorted(
-    list(OPERATORS | SPECIAL_SYMBOLS),
-    key=lambda x: -len(x)  # longest match first
-)
+COMPOSITE_TOKENS = sorted(list(OPERATORS | SPECIAL_SYMBOLS), key=lambda x: -len(x))
 
 def remove_comments(text):
     text = re.sub(SINGLE_LINE_COMMENT, '', text)
@@ -24,7 +20,7 @@ def tokenize(line):
             i += 1
             continue
 
-        # Handle string literals
+        # String literal
         if ch == '"':
             start = i
             i += 1
@@ -34,7 +30,7 @@ def tokenize(line):
             tokens.append(line[start:i])
             continue
 
-        # Handle char literals
+        # Char literal
         if ch == "'":
             start = i
             i += 1
@@ -44,7 +40,7 @@ def tokenize(line):
             tokens.append(line[start:i])
             continue
 
-        # Try to match longest composite operator/symbol
+        # Match composite operators/symbols
         matched = False
         for symbol in COMPOSITE_TOKENS:
             if line[i:i+len(symbol)] == symbol:
@@ -55,20 +51,47 @@ def tokenize(line):
         if matched:
             continue
 
-        # Match identifier, number, etc.
-        token = ''
-        while i < length and re.match(r'\w', line[i]):
-            token += line[i]
-            i += 1
-        if token:
+        # Number (int or float with exponent)
+        number_match = re.match(r'\d+(\.\d*)?([eE][-+]?\d+)?', line[i:])
+        if number_match:
+            token = number_match.group()
             tokens.append(token)
-        else:
-            # For unknown single characters
-            tokens.append(ch)
-            i += 1
+            i += len(token)
+            continue
+
+        # Identifier or preprocessor directives (start with letter, _, or #)
+        if re.match(r'[a-zA-Z_#]', ch):
+            token = ''
+            while i < length and re.match(r'[a-zA-Z0-9_]', line[i]):
+                token += line[i]
+                i += 1
+            tokens.append(token)
+            continue
+
+        # Otherwise, single char token
+        tokens.append(ch)
+        i += 1
 
     return tokens
 
-#--------------------------------CSE4803(Assignment 1)----------------------
-#created by A N M Zahid Hossain Milkan (200041202)------------------------------
-#Date 29 May 2025 (9:30 PM)
+
+# Debugging test block
+if __name__ == "__main__":
+    demo = '''
+#include <stdio.h>
+int main() {
+    float z = 3.14e-2;
+    /* comment block */
+    return 0;
+}
+'''
+    print("Original code:")
+    print(demo)
+
+    clean = remove_comments(demo)
+    print("\nCode after removing comments:")
+    print(clean)
+
+    for line in clean.split('\n'):
+        print(f"LINE: {line}")
+        print(f"TOKENS: {tokenize(line)}")

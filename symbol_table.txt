@@ -1,0 +1,17 @@
+include (IDENTIFIER) at line 1
+stdio (IDENTIFIER) at line 1
+h (IDENTIFIER) at line 1
+main (IDENTIFIER) at line 3
+x (IDENTIFIER) at line 4
+10 (CONSTANT (int)) at line 4
+y (IDENTIFIER) at line 4
+20 (CONSTANT (int)) at line 4
+z (IDENTIFIER) at line 5
+3.14e-2 (CONSTANT (float)) at line 5
+c (IDENTIFIER) at line 6
+'a' (CONSTANT (char)) at line 6
+printf (IDENTIFIER) at line 10
+"Hello\n" (CONSTANT (string)) at line 10
+5 (CONSTANT (int)) at line 13
+15 (CONSTANT (int)) at line 14
+0 (CONSTANT (int)) at line 19

@@ -2,10 +2,11 @@
 #--------------------------------CSE4803(Assignment 1)----------------------
 #created by A N M Zahid Hossain Milkan (200041202)------------------------------
 #Date 29 May 2025 (9:30 PM)
+# classifier.py (no major changes, just keep as is)
+
 from token_types import *
 
 def classify_token(token):
-    # Skip empty
     if not token.strip():
         return token, "WHITESPACE"
 

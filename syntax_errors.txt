@@ -1,0 +1,8 @@
+========== SYNTAX ERRORS ==========
+Line 4: Extra semicolon removed.
+Line 5: Missing semicolon inserted at end.
+Line 9: Extra semicolon removed.
+Line 13: Missing semicolon inserted at end.
+Line 13: Unbalanced opening parenthesis '('
+Line 15: Consecutive operators: '+' and '+'
+Line 16: Consecutive operands: 'y' and '20'
